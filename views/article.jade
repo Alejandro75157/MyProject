@@ -1,0 +1,10 @@
+extends layout
+block content
+    h1= title
+    #article
+        div.title
+            h2= article.title
+        div.author= article.author
+        div.description= article.description
+        div.modified= article.modified.toDateString()
+    a(href="/")!= "Back to Article List"

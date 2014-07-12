@@ -1,0 +1,119 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    text-align: center;
+    color: #555;
+}
+
+a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #268aff;
+}
+
+h1, h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #343434;
+}
+
+h1 {
+    text-shadow: 1px 2px 2px #ddd;
+    font-size: 60px;
+}
+
+#articles {
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
+#article {
+    text-align: left;
+    margin: 0;
+}
+
+.article {
+    margin: 20px;
+    overflow: hidden;
+}
+
+.title {
+    border-bottom: 2px solid #00B7FF;
+    margin-bottom: 5px;
+}
+
+.title a {
+    font-weight: bold;
+    font-size: 24px;
+    color: #000;
+    text-decoration: none;
+}
+
+.author {
+    margin-bottom: 2px;
+    font-style: italic;
+    font-size: 18px;
+}
+
+.description {
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.modified {
+    margin: 9px;
+    margin-left: 0px;
+    float: left;
+    color: #aaa;
+}
+
+.buttons {
+    float: right;
+}
+
+.buttons form {
+    float: left;
+}
+
+form #delete, form #edit {
+    margin: 3px;
+}
+
+.newarticle {
+    border-top: 3px solid #00B7FF;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 14px;
+}
+
+input[type =text], textarea {
+    width: 200px;
+    margin-left: 16px;
+    float: left;
+}
+
+input[type =button], input[type =submit] {
+    clear: both;
+    text-align: left;
+    margin-left: 165px;
+    display: block;
+
+    border: 1px solid #0097cf;
+    border-radius: 2px;
+    background-image: linear-gradient(to bottom, #9be0ff, #67b4c8);
+    padding: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.label {
+    width: 150px;
+    text-align: right !important;
+    display: block;
+    float: left;
+}
