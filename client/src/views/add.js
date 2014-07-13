@@ -8,16 +8,13 @@ module.exports = AddView = Marionette.ItemView.extend({
 
     save: function(e) {
         e.preventDefault();
-        var newContact = {
-            name: {
-                first: this.$el.find('#name_first').val(),
-                last: this.$el.find('#name_last').val()
-            },
-            email: this.$el.find('#email').val(),
-            phone: this.$el.find('#phone').val()
+        var newArticle = {
+            title: this.$el.find('#title').val(),
+            author: this.$el.find('#author').val(),
+            description: this.$el.find('#description').val()
         };
 
-        window.App.data.contacts.create(newContact);
+        window.App.data.articles.create(newArticle);
         window.App.core.vent.trigger('app:log', 'Add View: Saved new contact!');
         window.App.controller.home();
     }

@@ -1,6 +1,6 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"backbone.marionette":[function(require,module,exports){
-module.exports=require('O1n1zV');
-},{}],"O1n1zV":[function(require,module,exports){
+module.exports=require('5WWAqi');
+},{}],"5WWAqi":[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};(function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 
 ; global.$ = require("jquery");
@@ -2477,9 +2477,9 @@ _.extend(Marionette.Module, {
 
 }).call(global, undefined, undefined, undefined, function defineExport(ex) { module.exports = ex; });
 
-},{"backbone":"xuUjKZ","jquery":"r4sYAw","underscore":"4IYD6b"}],"backbone":[function(require,module,exports){
-module.exports=require('xuUjKZ');
-},{}],"xuUjKZ":[function(require,module,exports){
+},{"backbone":"+QRORU","jquery":"j4IYv0","underscore":"zPv7yq"}],"backbone":[function(require,module,exports){
+module.exports=require('+QRORU');
+},{}],"+QRORU":[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};(function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 
 ; global.underscore = require("underscore");
@@ -4069,7 +4069,9 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
 
 }).call(global, undefined, undefined, undefined, function defineExport(ex) { module.exports = ex; });
 
-},{"underscore":"4IYD6b"}],"r4sYAw":[function(require,module,exports){
+},{"underscore":"zPv7yq"}],"jquery":[function(require,module,exports){
+module.exports=require('j4IYv0');
+},{}],"j4IYv0":[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};(function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 /*!
  * jQuery JavaScript Library v1.10.2
@@ -13865,9 +13867,9 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
 }).call(global, undefined, undefined, undefined, function defineExport(ex) { module.exports = ex; });
 
-},{}],"jquery":[function(require,module,exports){
-module.exports=require('r4sYAw');
-},{}],"4IYD6b":[function(require,module,exports){
+},{}],"underscore":[function(require,module,exports){
+module.exports=require('zPv7yq');
+},{}],"zPv7yq":[function(require,module,exports){
 var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};(function browserifyShim(module, exports, define, browserify_shim__define__module__export__) {
 //     Underscore.js 1.5.2
 //     http://underscorejs.org
@@ -15150,16 +15152,13 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
 
 }).call(global, undefined, undefined, undefined, function defineExport(ex) { module.exports = ex; });
 
-},{}],"underscore":[function(require,module,exports){
-module.exports=require('4IYD6b');
-},{}]},{},["O1n1zV","xuUjKZ","r4sYAw","4IYD6b"])
+},{}]},{},["5WWAqi","+QRORU","j4IYv0","zPv7yq"])
 ;
 ;(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Marionette = require('backbone.marionette'),
     Controller = require('./controller'),
     Router = require('./router'),
-    ContactModel = require('./models/contact'),
-    ContactsCollection = require('./collections/contacts');
+    ArticlesCollection = require('./collections/articles');
 
 module.exports = App = function App() {};
 
@@ -15173,10 +15172,10 @@ App.prototype.start = function(){
         App.data = {};
 
         // load up some initial data:
-        var contacts = new ContactsCollection();
-        contacts.fetch({
+        var articles = new ArticlesCollection();
+        articles.fetch({
             success: function() {
-                App.data.contacts = contacts;
+                App.data.articles = articles;
                 App.core.vent.trigger('app:start');
             }
         });
@@ -15202,44 +15201,44 @@ App.prototype.start = function(){
     App.core.start();
 };
 
-},{"./collections/contacts":2,"./controller":3,"./models/contact":5,"./router":6}],2:[function(require,module,exports){
+},{"./collections/articles":2,"./controller":3,"./router":6}],2:[function(require,module,exports){
 var Backbone = require('backbone'),
-    ContactModel = require('../models/contact');
+    ArticleModel = require('../models/article');
 
-module.exports = ContactsCollection = Backbone.Collection.extend({
-    model:  ContactModel,
-    url: '/api/contacts'
+module.exports = ArticlesCollection = Backbone.Collection.extend({
+    model:  ArticleModel,
+    url: '/api/articles'
 });
 
-},{"../models/contact":5}],3:[function(require,module,exports){
+},{"../models/article":5}],3:[function(require,module,exports){
 var Marionette = require('backbone.marionette'),
-    ContactsView = require('./views/contacts'),
-    ContactDetailsView = require('./views/contact_details'),
-    AddContactView = require('./views/add');
+    ArticlesView = require('./views/articles'),
+    ArticlesDetailsView = require('./views/article_details'),
+    AddArticleView = require('./views/add');
 
 module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
         App.core.vent.trigger('app:log', 'Controller: Initializing');
-        window.App.views.contactsView = new ContactsView({ collection: window.App.data.contacts });
+        window.App.views.ArticlesView = new ArticlesView({ collection: window.App.data.articles });
     },
 
     home: function() {
         App.core.vent.trigger('app:log', 'Controller: "Home" route hit.');
-        var view = window.App.views.contactsView;
+        var view = window.App.views.ArticlesView;
         this.renderView(view);
         window.App.router.navigate('#');
     },
 
     details: function(id) {
         App.core.vent.trigger('app:log', 'Controller: "Contact Details" route hit.');
-        var view = new ContactDetailsView({ model: window.App.data.contacts.get(id)});
+        var view = new ArticlesDetailsView({ model: window.App.data.articles.get(id)});
         this.renderView(view);
         window.App.router.navigate('details/' + id);
     },
 
     add: function() {
         App.core.vent.trigger('app:log', 'Controller: "Add Contact" route hit.');
-        var view = new AddContactView();
+        var view = new AddArticleView();
         this.renderView(view);
         window.App.router.navigate('add');
     },
@@ -15259,7 +15258,7 @@ module.exports = Controller = Marionette.Controller.extend({
     }
 });
 
-},{"./views/add":7,"./views/contact_details":8,"./views/contacts":9}],4:[function(require,module,exports){
+},{"./views/add":7,"./views/article_details":8,"./views/articles":9}],4:[function(require,module,exports){
 var App = require('./app');
 var myapp = new App();
 myapp.start();
@@ -15267,9 +15266,9 @@ myapp.start();
 },{"./app":1}],5:[function(require,module,exports){
 var Backbone = require('backbone');
 
-module.exports = ContactModel = Backbone.Model.extend({
+module.exports = ArticleModel = Backbone.Model.extend({
     idAttribute: '_id',
-    urlRoot: 'api/contacts'
+    urlRoot: 'api/articles'
 });
 
 },{}],6:[function(require,module,exports){
@@ -15294,16 +15293,13 @@ module.exports = AddView = Marionette.ItemView.extend({
 
     save: function(e) {
         e.preventDefault();
-        var newContact = {
-            name: {
-                first: this.$el.find('#name_first').val(),
-                last: this.$el.find('#name_last').val()
-            },
-            email: this.$el.find('#email').val(),
-            phone: this.$el.find('#phone').val()
+        var newArticle = {
+            title: this.$el.find('#title').val(),
+            author: this.$el.find('#author').val(),
+            description: this.$el.find('#description').val()
         };
 
-        window.App.data.contacts.create(newContact);
+        window.App.data.articles.create(newArticle);
         window.App.core.vent.trigger('app:log', 'Add View: Saved new contact!');
         window.App.controller.home();
     }
@@ -15312,21 +15308,22 @@ module.exports = AddView = Marionette.ItemView.extend({
 },{"../../templates/add.hbs":10}],8:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
-module.exports = ContactDetailsView = Marionette.ItemView.extend({
-    template: require('../../templates/contact_details.hbs'),
+module.exports = ArticleDetailsView = Marionette.ItemView.extend({
+    template: require('../../templates/article_details.hbs'),
     events: {
         'click a.back': 'goBack',
-        'click a.delete': 'deleteContact'
+        'click a.delete': 'deleteArticle'
     },
 
     goBack: function(e) {
         e.preventDefault();
         window.App.controller.home();
     },
-    deleteContact: function(e) {
+
+    deleteArticle: function(e) {
         e.preventDefault();
-        console.log('Deleting contact');
-        window.App.data.contacts.remove(this.model);
+        console.log('Deleting article');
+        window.App.data.articles.remove(this.model);
 
         // this will actually send a DELETE to the server:
         this.model.destroy();
@@ -15335,21 +15332,34 @@ module.exports = ContactDetailsView = Marionette.ItemView.extend({
     }
 });
 
-},{"../../templates/contact_details.hbs":11}],9:[function(require,module,exports){
+},{"../../templates/article_details.hbs":11}],9:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 var itemView = Marionette.ItemView.extend({
-    template: require('../../templates/contact_small.hbs'),
+    template: require('../../templates/article_small.hbs'),
     initialize: function() {
         this.listenTo(this.model, 'change', this.render);
     },
     events: {
-        'click': 'showDetails'
+        'click a.update': 'updateArticle',
+        'click a.delete': 'deleteArticle',
+        'click a.show': 'showDetails'
     },
 
-    showDetails: function() {
+    showDetails: function(e) {
+        e.preventDefault();
         window.App.core.vent.trigger('app:log', 'Contacts View: showDetails hit.');
         window.App.controller.details(this.model.id);
+    },
+
+    updateArticle: function(e) {
+        e.preventDefault();
+        alert("Update");
+    },
+
+    deleteArticle: function(e) {
+        e.preventDefault();
+        alert("Delete");
     }
 });
 
@@ -15360,7 +15370,7 @@ module.exports = CollectionView = Marionette.CollectionView.extend({
     itemView: itemView
 });
 
-},{"../../templates/contact_small.hbs":12}],10:[function(require,module,exports){
+},{"../../templates/article_small.hbs":12}],10:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15369,7 +15379,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"add_contact\">\n    <label for=\"name_first\">First Name:</label> <input type=\"text\" id=\"name_first\" /><br/>\n    <label for=\"name_last\">Last Name:</label> <input type=\"text\" id=\"name_last\" /><br/>\n    <label for=\"email\">Email:</label> <input type=\"text\" id=\"email\" /><br/>\n    <label for=\"phone\">Phone:</label> <input type=\"text\" id=\"phone\" /><br/>\n    <br/>\n    <a href=\"#\" class=\"save-button\">Save Contact</a> | <a href=\"#\"><< Back</a>\n</div>\n";
+  return "<div class=\"add_article\">\n    <label for=\"title\">Title:</label> <input type=\"text\" id=\"title\" /><br/>\n    <label for=\"author\">Author:</label> <input type=\"text\" id=\"author\" /><br/>\n    <label for=\"description\">Describe:</label> <textarea id=\"description\" rows=\"4\" /><br/>\n    <br/>\n    <a href=\"#\" class=\"save-button\">Save Article</a> | <a href=\"#\"><< Back</a>\n</div>\n";
   });
 
 },{"hbsfy/runtime":16}],11:[function(require,module,exports){
@@ -15378,26 +15388,26 @@ var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"contact_full\">\n    <img src=\"http://www.gravatar.com/avatar/";
-  if (stack1 = helpers.gravatar) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.gravatar; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += "<div class=\"article_full\">\n    <strong>Title:</strong> ";
+  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "?d=monsterid&s=250\"/>\n    <br/><br/>\n    <strong>Name:</strong> "
-    + escapeExpression(((stack1 = ((stack1 = depth0.name),stack1 == null || stack1 === false ? stack1 : stack1.first)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + " "
-    + escapeExpression(((stack1 = ((stack1 = depth0.name),stack1 == null || stack1 === false ? stack1 : stack1.last)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "<br/>\n    <strong>Email:</strong> ";
-  if (stack2 = helpers.email) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = depth0.email; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "<br/>\n    <strong>Phone:</strong> ";
-  if (stack2 = helpers.phone) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = depth0.phone; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "<br/><br/>\n\n</div>\n\n<a href=\"#\" class=\"back\"><< Back</a> | <a href=\"#\" class=\"delete\">Delete Contact</a>\n";
+    + "<br/>\n    <strong>Author:</strong> ";
+  if (stack1 = helpers.author) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.author; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "<br/>\n    <strong>Description:</strong> ";
+  if (stack1 = helpers.describe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.describe; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "<br/><br/>\n     ";
+  if (stack1 = helpers.modified) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.modified; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "<br/><br/>\n\n</div>\n\n<a href=\"#\" class=\"back\"><< Back</a> | <a href=\"#\" class=\"update\">Update Article</a> |<a href=\"#\" class=\"delete\">Delete Article</a>\n";
   return buffer;
   });
 
@@ -15407,22 +15417,26 @@ var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, stack2, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"contact_small\">\n    <img src=\"http://www.gravatar.com/avatar/";
-  if (stack1 = helpers.gravatar) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.gravatar; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += "<div class=\"article_small\">\n    ";
+  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "?d=monsterid&s=45\"/>\n    <strong>"
-    + escapeExpression(((stack1 = ((stack1 = depth0.name),stack1 == null || stack1 === false ? stack1 : stack1.first)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + " "
-    + escapeExpression(((stack1 = ((stack1 = depth0.name),stack1 == null || stack1 === false ? stack1 : stack1.last)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</strong><br/>\n    ";
-  if (stack2 = helpers.email) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
-  else { stack2 = depth0.email; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
-  buffer += escapeExpression(stack2)
-    + "\n</div>\n";
+    + "\n    ";
+  if (stack1 = helpers.author) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.author; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n    ";
+  if (stack1 = helpers.describe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.describe; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n    ";
+  if (stack1 = helpers.modified) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.modified; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n    <a href=\"#\" class=\"update\">Update</a>\n    <a href=\"#\" class=\"delete\">Delete</a>\n    <a href=\"#\" class=\"show\">Show</a>\n</div>";
   return buffer;
   });
 

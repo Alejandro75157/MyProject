@@ -1,31 +1,31 @@
 var Marionette = require('backbone.marionette'),
-    ContactsView = require('./views/contacts'),
-    ContactDetailsView = require('./views/contact_details'),
-    AddContactView = require('./views/add');
+    ArticlesView = require('./views/articles'),
+    ArticlesDetailsView = require('./views/article_details'),
+    AddArticleView = require('./views/add');
 
 module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
         App.core.vent.trigger('app:log', 'Controller: Initializing');
-        window.App.views.contactsView = new ContactsView({ collection: window.App.data.contacts });
+        window.App.views.ArticlesView = new ArticlesView({ collection: window.App.data.articles });
     },
 
     home: function() {
         App.core.vent.trigger('app:log', 'Controller: "Home" route hit.');
-        var view = window.App.views.contactsView;
+        var view = window.App.views.ArticlesView;
         this.renderView(view);
         window.App.router.navigate('#');
     },
 
     details: function(id) {
         App.core.vent.trigger('app:log', 'Controller: "Contact Details" route hit.');
-        var view = new ContactDetailsView({ model: window.App.data.contacts.get(id)});
+        var view = new ArticlesDetailsView({ model: window.App.data.articles.get(id)});
         this.renderView(view);
         window.App.router.navigate('details/' + id);
     },
 
     add: function() {
         App.core.vent.trigger('app:log', 'Controller: "Add Contact" route hit.');
-        var view = new AddContactView();
+        var view = new AddArticleView();
         this.renderView(view);
         window.App.router.navigate('add');
     },
