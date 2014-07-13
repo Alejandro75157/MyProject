@@ -1,17 +1,17 @@
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+    Schema = mongoose.Schema;
 
-var Contact = new Schema({
-    email:      { type: String },
-    name: {
-        first:  { type: String },
-        last:   { type: String }
-    },
-    phone:      { type: String },
-    gravatar:   { type: String }
+var Article = new Schema({
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    description: { type: String, required: true },
+    modified: { type: Date, default: Date.now }
+});
+
+Article.path('title').validate(function (v) {
+    return v.length > 5 && v.length < 70;
 });
 
 module.exports = {
-    Contact: mongoose.model('Contact', Contact)
+    Article: mongoose.model('Article', Article)
 };
