@@ -6,5 +6,7 @@
 
 
 
-node_modules
 .idea
+node_modules/*
+build/*
+bower_components/*
