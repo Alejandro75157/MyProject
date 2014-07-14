@@ -19,12 +19,18 @@ var itemView = Marionette.ItemView.extend({
 
     updateArticle: function(e) {
         e.preventDefault();
-        alert("Update");
+        window.App.core.vent.trigger('app:log', 'Contacts View: showDetails hit.');
+        window.App.controller.showUpdate(this.model.id);
     },
 
     deleteArticle: function(e) {
         e.preventDefault();
-        alert("Delete");
+        console.log('Deleting article');
+        window.App.data.articles.remove(this.model);
+
+        this.model.destroy();
+
+        window.App.controller.home();
     }
 });
 

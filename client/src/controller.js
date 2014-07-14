@@ -1,7 +1,8 @@
 var Marionette = require('backbone.marionette'),
     ArticlesView = require('./views/articles'),
     ArticlesDetailsView = require('./views/article_details'),
-    AddArticleView = require('./views/add');
+    AddArticleView = require('./views/add'),
+    UpdateView = require('./views/update');
 
 module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
@@ -17,17 +18,24 @@ module.exports = Controller = Marionette.Controller.extend({
     },
 
     details: function(id) {
-        App.core.vent.trigger('app:log', 'Controller: "Contact Details" route hit.');
+        App.core.vent.trigger('app:log', 'Controller: "Article Details" route hit.');
         var view = new ArticlesDetailsView({ model: window.App.data.articles.get(id)});
         this.renderView(view);
         window.App.router.navigate('details/' + id);
     },
 
     add: function() {
-        App.core.vent.trigger('app:log', 'Controller: "Add Contact" route hit.');
+        App.core.vent.trigger('app:log', 'Controller: "Add Article" route hit.');
         var view = new AddArticleView();
         this.renderView(view);
         window.App.router.navigate('add');
+    },
+
+    showUpdate: function(id) {
+        App.core.vent.trigger('app:log', 'Controller: "Update Article" route hit.');
+        var view = new UpdateView({ model: window.App.data.articles.get(id)});
+        this.renderView(view);
+        window.App.router.navigate('update/' + id);
     },
 
     renderView: function(view) {

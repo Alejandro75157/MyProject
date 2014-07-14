@@ -15214,7 +15214,8 @@ module.exports = ArticlesCollection = Backbone.Collection.extend({
 var Marionette = require('backbone.marionette'),
     ArticlesView = require('./views/articles'),
     ArticlesDetailsView = require('./views/article_details'),
-    AddArticleView = require('./views/add');
+    AddArticleView = require('./views/add'),
+    UpdateView = require('./views/update');
 
 module.exports = Controller = Marionette.Controller.extend({
     initialize: function() {
@@ -15230,17 +15231,24 @@ module.exports = Controller = Marionette.Controller.extend({
     },
 
     details: function(id) {
-        App.core.vent.trigger('app:log', 'Controller: "Contact Details" route hit.');
+        App.core.vent.trigger('app:log', 'Controller: "Article Details" route hit.');
         var view = new ArticlesDetailsView({ model: window.App.data.articles.get(id)});
         this.renderView(view);
         window.App.router.navigate('details/' + id);
     },
 
     add: function() {
-        App.core.vent.trigger('app:log', 'Controller: "Add Contact" route hit.');
+        App.core.vent.trigger('app:log', 'Controller: "Add Article" route hit.');
         var view = new AddArticleView();
         this.renderView(view);
         window.App.router.navigate('add');
+    },
+
+    showUpdate: function(id) {
+        App.core.vent.trigger('app:log', 'Controller: "Update Article" route hit.');
+        var view = new UpdateView({ model: window.App.data.articles.get(id)});
+        this.renderView(view);
+        window.App.router.navigate('update/' + id);
     },
 
     renderView: function(view) {
@@ -15258,7 +15266,7 @@ module.exports = Controller = Marionette.Controller.extend({
     }
 });
 
-},{"./views/add":7,"./views/article_details":8,"./views/articles":9}],4:[function(require,module,exports){
+},{"./views/add":7,"./views/article_details":8,"./views/articles":9,"./views/update":10}],4:[function(require,module,exports){
 var App = require('./app');
 var myapp = new App();
 myapp.start();
@@ -15278,7 +15286,8 @@ module.exports = Router = Marionette.AppRouter.extend({
     appRoutes: {
         ''  : 'home',
         'details/:id' : 'details',
-        'add' : 'add'
+        'add' : 'add',
+        'update/:id' : 'showUpdate'
     }
 });
 
@@ -15305,7 +15314,7 @@ module.exports = AddView = Marionette.ItemView.extend({
     }
 });
 
-},{"../../templates/add.hbs":10}],8:[function(require,module,exports){
+},{"../../templates/add.hbs":11}],8:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 module.exports = ArticleDetailsView = Marionette.ItemView.extend({
@@ -15332,7 +15341,7 @@ module.exports = ArticleDetailsView = Marionette.ItemView.extend({
     }
 });
 
-},{"../../templates/article_details.hbs":11}],9:[function(require,module,exports){
+},{"../../templates/article_details.hbs":12}],9:[function(require,module,exports){
 var Marionette = require('backbone.marionette');
 
 var itemView = Marionette.ItemView.extend({
@@ -15354,12 +15363,18 @@ var itemView = Marionette.ItemView.extend({
 
     updateArticle: function(e) {
         e.preventDefault();
-        alert("Update");
+        window.App.core.vent.trigger('app:log', 'Contacts View: showDetails hit.');
+        window.App.controller.showUpdate(this.model.id);
     },
 
     deleteArticle: function(e) {
         e.preventDefault();
-        alert("Delete");
+        console.log('Deleting article');
+        window.App.data.articles.remove(this.model);
+
+        this.model.destroy();
+
+        window.App.controller.home();
     }
 });
 
@@ -15370,7 +15385,34 @@ module.exports = CollectionView = Marionette.CollectionView.extend({
     itemView: itemView
 });
 
-},{"../../templates/article_small.hbs":12}],10:[function(require,module,exports){
+},{"../../templates/article_small.hbs":13}],10:[function(require,module,exports){
+var Marionette = require('backbone.marionette');
+
+module.exports = updateView = Marionette.ItemView.extend({
+    template: require('../../templates/edit.hbs'),
+    events: {
+        'click a.update-button': 'edit'
+    },
+
+    edit: function(e) {
+        e.preventDefault();
+        var updateArticle = {
+            id: this.model.id,
+            title: this.$el.find('#title').val(),
+            author: this.$el.find('#author').val(),
+            description: this.$el.find('#description').val()
+        };
+
+        this.model.save(updateArticle);
+
+        var items = window.App.data.articles.where({id: this.model.id});
+        items[0].set(updateArticle);
+
+        window.App.core.vent.trigger('app:log', 'Add View: Saved new article!');
+        window.App.controller.home();
+    }
+});
+},{"../../templates/edit.hbs":14}],11:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15382,7 +15424,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "<div class=\"add_article\">\n    <label for=\"title\">Title:</label> <input type=\"text\" id=\"title\" /><br/>\n    <label for=\"author\">Author:</label> <input type=\"text\" id=\"author\" /><br/>\n    <label for=\"description\">Describe:</label> <textarea id=\"description\" rows=\"4\" /><br/>\n    <br/>\n    <a href=\"#\" class=\"save-button\">Save Article</a> | <a href=\"#\"><< Back</a>\n</div>\n";
   });
 
-},{"hbsfy/runtime":16}],11:[function(require,module,exports){
+},{"hbsfy/runtime":18}],12:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15400,8 +15442,8 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   else { stack1 = depth0.author; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "<br/>\n    <strong>Description:</strong> ";
-  if (stack1 = helpers.describe) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.describe; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "<br/><br/>\n     ";
   if (stack1 = helpers.modified) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -15411,7 +15453,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":16}],12:[function(require,module,exports){
+},{"hbsfy/runtime":18}],13:[function(require,module,exports){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
@@ -15440,7 +15482,32 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return buffer;
   });
 
-},{"hbsfy/runtime":16}],13:[function(require,module,exports){
+},{"hbsfy/runtime":18}],14:[function(require,module,exports){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"edit_article\">\n    <label for=\"title\">Title:</label> <input type=\"text\" id=\"title\" value=\"";
+  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\" /><br/>\n    <label for=\"author\">Author:</label> <input type=\"text\" id=\"author\" value=\"";
+  if (stack1 = helpers.author) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.author; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\"/><br/>\n    <label for=\"description\">Description:</label>\n    <textarea id=\"description\" rows=\"4\">";
+  if (stack1 = helpers.description) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.description; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</textarea><br/>\n\n    <br/>\n    <a href=\"#\" class=\"update-button\">Update Article</a> | <a href=\"#\"><< Back</a>\n</div>";
+  return buffer;
+  });
+
+},{"hbsfy/runtime":18}],15:[function(require,module,exports){
 /*jshint eqnull: true */
 
 module.exports.create = function() {
@@ -15608,7 +15675,7 @@ Handlebars.registerHelper('log', function(context, options) {
 return Handlebars;
 };
 
-},{}],14:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 exports.attach = function(Handlebars) {
 
 // BEGIN(BROWSER)
@@ -15716,7 +15783,7 @@ return Handlebars;
 
 };
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 exports.attach = function(Handlebars) {
 
 var toString = Object.prototype.toString;
@@ -15801,7 +15868,7 @@ Handlebars.Utils = {
 return Handlebars;
 };
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var hbsBase = require("handlebars/lib/handlebars/base");
 var hbsUtils = require("handlebars/lib/handlebars/utils");
 var hbsRuntime = require("handlebars/lib/handlebars/runtime");
@@ -15812,5 +15879,5 @@ hbsRuntime.attach(Handlebars);
 
 module.exports = Handlebars;
 
-},{"handlebars/lib/handlebars/base":13,"handlebars/lib/handlebars/runtime":14,"handlebars/lib/handlebars/utils":15}]},{},[4])
+},{"handlebars/lib/handlebars/base":15,"handlebars/lib/handlebars/runtime":16,"handlebars/lib/handlebars/utils":17}]},{},[4])
 ;
